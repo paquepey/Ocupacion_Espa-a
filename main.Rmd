@@ -8,23 +8,47 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+```{r}
+# Define the libraries that we're going to use
+libraries <- c('pacman', 'tidyverse')
 
-## R Markdown
+# Install them if not already installed
+for (lib in libraries) {
+  if (!require(lib, character.only = TRUE)) {
+    install.packages(lib, dependencies = TRUE)
+    library(lib, character.only = TRUE)
+  }
+}
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+# Load the libraries with pacman
+pacman::p_load(tidyverse)
 ```
 
-## Including Plots
+## What is all of this about?
 
-You can also embed plots, for example:
+The goal of this project is to show everybody whether if a person is working or not in Spain, depending on which province they're living in and what their gender are. It is important to know before taking this stats in account that the data shown is from 2002 and the firt quarter of 2024. The data is from [INE](https://www.ine.es/jaxiT3/Tabla.htm?t=65349) and it is public.
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+
+## Importing the data
+
+To import the data we're going to use the library tidyverse. This library is a collection of packages that work together to make data manipulation easier. 
+
+```{r}
+# Import the data
+data <- read.csv('data/tasa_ocupacion.csv', sep = ';', encoding = 'UTF-8')
+
+# View the data
+head(data)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+The structure of the data is the following:
+- 'Sexo' includes the sex of the person. It could be 'Mujeres', 'Hombres' or 'Ambos sexos'.
+- 'Provincia' includes the code and the name of the province.
+- 'Tasas' includes 'Tasa de actividad', 'Tasa de empleo de la población' and 'Tasa de paro de la población'.
+- 'Periodo' includes the year and the quarter of the data.
+- 'Total' includes the total of the data.
+
+
+## Data cleaning
+
+
